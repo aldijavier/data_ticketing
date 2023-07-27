@@ -93,4 +93,8 @@ class User extends Authenticatable
     {
         return $this->roles->contains(6);
     }
+    public function isDev()
+    {
+        return $this->roles->contains(2);
+    }
 }

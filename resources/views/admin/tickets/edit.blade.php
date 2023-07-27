@@ -141,7 +141,7 @@
                     @endif
                 </div>
             @endif
-            @if(auth()->user()->isEnd())
+            <!-- @if(auth()->user()->isEnd())
                 <div class="form-group {{ $errors->has('assigned_to_user_id') ? 'has-error' : '' }}">
                     <label for="assigned_to_user">{{ trans('cruds.ticket.fields.assigned_to_user') }}</label>
                     <select name="assigned_to_user_id" id="assigned_to_user" class="form-control select2">
@@ -155,7 +155,22 @@
                         </em>
                     @endif
                 </div>
-            @endif
+            @endif -->
+            <!-- @if(auth()->user()->isDev())
+                <div class="form-group {{ $errors->has('assigned_to_user_id') ? 'has-error' : '' }}">
+                    <label for="assigned_to_user">{{ trans('cruds.ticket.fields.assigned_to_user') }}</label>
+                    <select name="assigned_to_user_id" id="assigned_to_user" class="form-control select2">
+                        @foreach($assigned_to_end_user as $id => $assigned_to_user)
+                            <option value="{{ $id }}" {{ (isset($ticket) && $ticket->assigned_to_user ? $ticket->assigned_to_user->id : old('assigned_to_user_id')) == $id ? 'selected' : '' }}>{{ $assigned_to_user }}</option>
+                        @endforeach
+                    </select>
+                    @if($errors->has('assigned_to_user_id'))
+                        <em class="invalid-feedback">
+                            {{ $errors->first('assigned_to_user_id') }}
+                        </em>
+                    @endif
+                </div>
+            @endif -->
             <div>
                 <input class="btn btn-danger" type="submit" value="{{ trans('global.save') }}">
             </div>

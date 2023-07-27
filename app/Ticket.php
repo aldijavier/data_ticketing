@@ -126,7 +126,8 @@ class Ticket extends Model implements HasMedia
     {
         $users = \App\User::where(function ($q) {
                 $q->whereHas('roles', function ($q) {
-                    return $q->where('title', 'Developer');
+                    return $q->where('title', 'Developer')
+                    ->orWhere('title', 'Enduser');
                 })
                 ->where(function ($q) {
                     $q->whereHas('comments', function ($q) {

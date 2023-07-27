@@ -133,7 +133,7 @@ class TicketsController extends Controller
             })
             ->pluck('name', 'id')
             ->prepend(trans('global.pleaseSelect'), '');
-        
+    
         $user = Auth::user();
 
         return view('admin.tickets.create', compact('typeRequest', 'statuses', 'priorities', 'categories', 'assigned_to_users', 'user', 'userRequest'));
@@ -166,9 +166,15 @@ class TicketsController extends Controller
             ->pluck('name', 'id')
             ->prepend(trans('global.pleaseSelect'), '');
 
+        $assigned_to_end_user = User::whereHas('roles', function($query) {
+            $query->whereId(6);
+        })
+        ->pluck('name', 'id')
+        ->prepend(trans('global.pleaseSelect'), '');
+
         $ticket->load('status', 'priority', 'category', 'assigned_to_user');
 
-        return view('admin.tickets.edit', compact('statuses', 'priorities', 'categories', 'assigned_to_users', 'ticket'));
+        return view('admin.tickets.edit', compact('assigned_to_end_user', 'statuses', 'priorities', 'categories', 'assigned_to_users', 'ticket'));
     }
 
     public function update(UpdateTicketRequest $request, Ticket $ticket)
