@@ -198,7 +198,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'id'    => '48',
-                'title' => 'approval_access',
+                'title' => 'type_of_change',
             ],
         ];
 

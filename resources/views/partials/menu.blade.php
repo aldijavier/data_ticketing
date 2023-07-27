@@ -41,6 +41,15 @@
                                 </a>
                             </li>
                         @endcan
+                        @can('type_of_change')
+                            <li class="nav-item">
+                                <a href="{{ route("admin.typeofchange.index") }}" class="nav-link {{ request()->is('admin/typechange') || request()->is('admin/typechange/*') ? 'active' : '' }}">
+                                    <i class="fa-fw fas fa-user nav-icon">
+                                    </i>
+                                    Type of Change
+                                </a>
+                            </li>
+                        @endcan
                         @can('user_request')
                             <li class="nav-item">
                                 <a href="{{ route("admin.userrequest.index") }}" class="nav-link {{ request()->is('admin/userrequest') || request()->is('admin/userrequest/*') ? 'active' : '' }}">
@@ -121,15 +130,6 @@
 
                         </i>
                         {{ trans('cruds.comment.title') }}
-                    </a>
-                </li>
-            @endcan
-            @can('code_review_access')
-                <li class="nav-item">
-                    <a href="{{ route("admin.codereview.index") }}" class="nav-link {{ request()->is('admin/codereview') || request()->is('admin/codereview/*') ? 'active' : '' }}">
-                        <i class="fa-fw fas fa-question-circle nav-icon">
-                        </i>
-                        Code Review
                     </a>
                 </li>
             @endcan

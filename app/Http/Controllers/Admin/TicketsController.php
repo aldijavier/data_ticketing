@@ -11,7 +11,9 @@ use App\Http\Requests\StoreTicketRequest;
 use App\Http\Requests\UpdateTicketRequest;
 use App\Priority;
 use App\Status;
+use App\Typerequest;
 use App\Ticket;
+use App\Role;
 use App\User;
 use Gate;
 use Illuminate\Http\Request;
@@ -104,18 +106,23 @@ class TicketsController extends Controller
         $priorities = Priority::all();
         $statuses = Status::all();
         $categories = Category::all();
+        // $analyst = Role::where('id', 2)->get();
+
 
         return view('admin.tickets.index', compact('priorities', 'statuses', 'categories', 'user'));
     }
 
     public function create()
     {
-        abort_if(Gate::denies('ticket_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        // abort_if(Gate::denies('ticket_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $statuses = Status::where('id', 3)->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        // $statuses = Status::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $statuses = Status::where('id', 9)->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
         // $statuses = Status::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $priorities = Priority::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        $typeRequest = Typerequest::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $categories = Category::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
@@ -129,7 +136,7 @@ class TicketsController extends Controller
         
         $user = Auth::user();
 
-        return view('admin.tickets.create', compact('statuses', 'priorities', 'categories', 'assigned_to_users', 'user', 'userRequest'));
+        return view('admin.tickets.create', compact('typeRequest', 'statuses', 'priorities', 'categories', 'assigned_to_users', 'user', 'userRequest'));
     }
 
     public function store(StoreTicketRequest $request)
@@ -191,7 +198,7 @@ class TicketsController extends Controller
     {
         abort_if(Gate::denies('ticket_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $ticket->load('status', 'priority', 'category', 'assigned_to_user', 'comments');
+        $ticket->load('typeRequest', 'status', 'userRequest', 'priority', 'category', 'assigned_to_user', 'comments');
 
         return view('admin.tickets.show', compact('ticket'));
     }

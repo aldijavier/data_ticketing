@@ -33,7 +33,7 @@ class Ticket extends Model implements HasMedia
         'status_id',
         'request',
         'requestdesc',
-        'notifyProduct',
+        'typeRequest',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -78,6 +78,16 @@ class Ticket extends Model implements HasMedia
         return $this->belongsTo(Priority::class, 'priority_id');
     }
 
+    public function typeRequest()
+    {
+        return $this->belongsTo(Typerequest::class, 'id');
+    }
+
+    public function userRequest()
+    {
+        return $this->belongsTo(UserRequest::class, 'id');
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id');
@@ -95,9 +105,14 @@ class Ticket extends Model implements HasMedia
                     $query->whereId(request()->input('priority'));
                 });
             })
-            ->when(request()->input('category'), function($query) {
-                $query->whereHas('category', function($query) {
-                    $query->whereId(request()->input('category'));
+            ->when(request()->input('analyst'), function($query) {
+                $query->whereHas('analyst', function($query) {
+                    $query->whereId(request()->input('analyst'));
+                });
+            })
+            ->when(request()->input('user'), function($query) {
+                $query->whereHas('user', function($query) {
+                    $query->whereId(request()->input('user'));
                 });
             })
             ->when(request()->input('status'), function($query) {
@@ -111,7 +126,7 @@ class Ticket extends Model implements HasMedia
     {
         $users = \App\User::where(function ($q) {
                 $q->whereHas('roles', function ($q) {
-                    return $q->where('title', 'Agent');
+                    return $q->where('title', 'Developer');
                 })
                 ->where(function ($q) {
                     $q->whereHas('comments', function ($q) {

@@ -33,6 +33,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('userrequest/destroy', 'UsersController@massDestroy')->name('userrequest.massDestroy');
     Route::resource('userrequest', 'UserRequestController');
 
+    // Type of Change
+    Route::delete('typeofchange/destroy', 'UsersController@massDestroy')->name('typeofchange.massDestroy');
+    Route::resource('typeofchange', 'TypeChangeController');
+
     // Statuses
     Route::delete('statuses/destroy', 'StatusesController@massDestroy')->name('statuses.massDestroy');
     Route::resource('statuses', 'StatusesController');

@@ -35,10 +35,11 @@ class UserRequest extends Authenticatable
         'updated_at',
         'deleted_at',
     ];
+    
 
     public function tickets()
     {
-        return $this->hasMany(Ticket::class, 'assigned_to_user_id', 'id');
+        return $this->hasMany(Ticket::class, 'id', 'id');
     }
 
     public function comments()

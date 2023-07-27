@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\MassDestroyUserRequest;
-use App\Http\Requests\StoreUserRequestTicket;
-use App\Http\Requests\UpdateUserRequestTicket;
+use App\Http\Requests\MassDestroyStatusRequest;
+use App\Http\Requests\StoreTicketRequest;
+use App\Http\Requests\UpdateStatusRequest;
 use App\UserRequest;
 use Gate;
 use Illuminate\Http\Request;
@@ -15,71 +15,60 @@ class UserRequestController extends Controller
 {
     public function index()
     {
-        abort_if(Gate::denies('user_request'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        // abort_if(Gate::denies('status_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $users = UserRequest::all();
 
-        return view('admin.userRequest.index', compact('users'));
+        return view('admin.userrequest.index', compact('users'));
     }
 
     public function create()
     {
-        abort_if(Gate::denies('user_request'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        // abort_if(Gate::denies('status_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $users = UserRequest::all();
-        // $users = UserRequest::all();
-
-        return view('admin.userRequest.create', compact('users'));
+        return view('admin.userrequest.create');
     }
 
-    public function store(StoreUserRequestTicket $request)
+    public function store(StoreTicketRequest $request)
     {
-        $user = UserRequest::create($request->all());
-        // $user->roles()->sync($request->input('roles', []));
+        $status = UserRequest::create($request->all());
 
         return redirect()->route('admin.userrequest.index');
     }
 
-    public function edit(User $user)
+    public function edit(UserRequest $user)
     {
-        abort_if(Gate::denies('user_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        // abort_if(Gate::denies('status_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $roles = Role::all()->pluck('title', 'id');
-
-        $user->load('roles');
-
-        return view('admin.users.edit', compact('roles', 'user'));
+        return view('admin.userrequest.edit', compact('user'));
     }
 
-    public function update(UpdateUserRequest $request, User $user)
+    public function update(UpdateStatusRequest $request, UserRequest $user)
     {
         $user->update($request->all());
-        $user->roles()->sync($request->input('roles', []));
 
-        return redirect()->route('admin.users.index');
+        return redirect()->route('admin.userrequest.index');
     }
 
-    public function show(User $user)
+    public function show(UserRequest $status)
     {
-        abort_if(Gate::denies('user_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('status_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $user->load('roles');
-
-        return view('admin.users.show', compact('user'));
+        return view('admin.statuses.show', compact('status'));
     }
 
-    public function destroy(User $user)
+    public function destroy(UserRequest $users)
     {
-        abort_if(Gate::denies('user_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        // abort_if(Gate::denies('status_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $user->delete();
+        $users->delete();
 
         return back();
     }
 
-    public function massDestroy(MassDestroyUserRequest $request)
+    public function massDestroy(MassDestroyStatusRequest $request)
     {
-        User::whereIn('id', request('ids'))->delete();
+        UserRequest::whereIn('id', request('ids'))->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

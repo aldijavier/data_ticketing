@@ -33,6 +33,22 @@
                     </tr>
                     <tr>
                         <th>
+                            User Request
+                        </th>
+                        <td>
+                            {{ $ticket->userRequest->name }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Type of Request
+                        </th>
+                        <td>
+                            {{ $ticket->typeRequest }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             Requester
                         </th>
                         <td>

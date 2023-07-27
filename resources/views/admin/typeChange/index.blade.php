@@ -1,9 +1,9 @@
 @extends('layouts.admin')
 @section('content')
-@can('user_create')
+@can('type_of_change')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route("admin.userrequest.create") }}">
+            <a class="btn btn-success" href="{{ route("admin.typeofchange.create") }}">
                 {{ trans('global.add') }} {{ trans('cruds.user.title_singular') }}
             </a>
         </div>
@@ -46,20 +46,15 @@
                                 {{ $user->name ?? '' }}
                             </td>
                             <td>
-                                @can('user_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.userrequest.edit', $user->id) }}">
-                                        {{ trans('global.edit') }}
-                                    </a>
-                                @endcan
+                                <a class="btn btn-xs btn-info" href="{{ route('admin.typeofchange.edit', $user->id) }}">
+                                    {{ trans('global.edit') }}
+                                </a>
 
-                                @can('user_delete')
-                                    <form action="{{ route('admin.userrequest.destroy', $user->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                    </form>
-                                @endcan
-
+                                <form action="{{ route('admin.typeofchange.destroy', $user->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
+                                </form>
                             </td>
 
                         </tr>
@@ -77,11 +72,11 @@
 <script>
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-@can('user_delete')
+@can('type_of_change')
   let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
   let deleteButton = {
     text: deleteButtonTrans,
-    url: "{{ route('admin.users.massDestroy') }}",
+    url: "{{ route('admin.typeofchange.massDestroy') }}",
     className: 'btn-danger',
     action: function (e, dt, node, config) {
       var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {

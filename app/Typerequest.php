@@ -11,11 +11,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 
-class User extends Authenticatable
+class Typerequest extends Authenticatable
 {
     use SoftDeletes, Notifiable, HasApiTokens;
 
-    public $table = 'users';
+    public $table = 'typerequest';
 
     protected $hidden = [
         'password',
@@ -31,18 +31,14 @@ class User extends Authenticatable
 
     protected $fillable = [
         'name',
-        'email',
-        'password',
         'created_at',
         'updated_at',
         'deleted_at',
-        'remember_token',
-        'email_verified_at',
     ];
 
     public function tickets()
     {
-        return $this->hasMany(Ticket::class, 'assigned_to_user_id', 'id');
+        return $this->hasMany(Ticket::class, 'id', 'id');
     }
 
     public function comments()
@@ -81,6 +77,7 @@ class User extends Authenticatable
     {
         return $this->roles->contains(1);
     }
+    
     public function isPM()
     {
         return $this->roles->contains(4);
@@ -88,9 +85,5 @@ class User extends Authenticatable
     public function isQA()
     {
         return $this->roles->contains(5);
-    }
-    public function isEnd()
-    {
-        return $this->roles->contains(6);
     }
 }

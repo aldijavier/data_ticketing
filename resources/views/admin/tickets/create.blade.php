@@ -21,6 +21,32 @@
                     {{ trans('cruds.ticket.fields.title_helper') }}
                 </p>
             </div>
+            <div class="form-group {{ $errors->has('userRequest_id') ? 'has-error' : '' }}">
+                <label for="UserReq">User Request *</label>
+                <select name="userRequest_id" id="userRequest" class="form-control select" required>
+                    @foreach($userRequest as $id => $userRequest)
+                        <option value="{{ $id }}" {{ (isset($ticket) && $ticket->userRequest ? $ticket->userRequest->id : old('id')) == $id ? 'selected' : '' }}>{{ $userRequest }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('userRequest_id'))
+                    <em class="invalid-feedback">
+                        {{ $errors->first('userRequest_id') }}
+                    </em>
+                @endif
+            </div>
+            <div class="form-group {{ $errors->has('typeofrequest') ? 'has-error' : '' }}">
+                <label for="UserReq">Type of Request *</label>
+                <select name="typeRequest" id="typeRequest" class="form-control select" required>
+                    @foreach($typeRequest as $id => $typeRequest)
+                        <option value="{{ $id }}" {{ (isset($ticket) && $ticket->typeRequest ? $ticket->typeRequest->id : old('id')) == $id ? 'selected' : '' }}>{{ $typeRequest }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('typeRequest_id'))
+                    <em class="invalid-feedback">
+                        {{ $errors->first('typeRequest_id') }}
+                    </em>
+                @endif
+            </div>
             <div class="form-group {{ $errors->has('category_id') ? 'has-error' : '' }}">
                 <label for="category">Pick System *</label>
                 <select name="category_id" id="category" class="form-control select" required>
@@ -59,7 +85,7 @@
                 </p>
             </div>
             <div class="form-group {{ $errors->has('attachments') ? 'has-error' : '' }}">
-                <label for="PRD">Product Requirement *</label>
+                <label for="PRD">Output File Example *</label>
                 <div class="needsclick dropzone" id="attachments-dropzone">
 
                 </div>
@@ -71,19 +97,6 @@
                 <p class="helper-block">
                     {{ trans('cruds.ticket.fields.attachments_helper') }}
                 </p>
-            </div>
-            <div class="form-group {{ $errors->has('userRequest_id') ? 'has-error' : '' }}">
-                <label for="UserReq">User Request *</label>
-                <select name="userRequest_id" id="userRequest" class="form-control select" required>
-                    @foreach($userRequest as $id => $userRequest)
-                        <option value="{{ $id }}" {{ (isset($ticket) && $ticket->userRequest ? $ticket->userRequest->id : old('id')) == $id ? 'selected' : '' }}>{{ $userRequest }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('userRequest_id'))
-                    <em class="invalid-feedback">
-                        {{ $errors->first('userRequest_id') }}
-                    </em>
-                @endif
             </div>
             <div class="form-group {{ $errors->has('status_id') ? 'has-error' : '' }}">
                 <label for="status">{{ trans('cruds.ticket.fields.status') }}*</label>
@@ -135,18 +148,6 @@
                         {{ $errors->first('priority_id') }}
                     </em>
                 @endif
-            </div>
-            <div class="form-group {{ $errors->has('notifyProduct') ? 'has-error' : '' }}">
-                <label for="regardingrequest">Have Product Team notified regarding your request? ( YES / NO ) *</label>
-                <input type="text" id="notifyProduct" name="notifyProduct" class="form-control" value="{{ old('notifyProduct', isset($ticket) ? $ticket->notifyProduct : '') }}">
-                @if($errors->has('notifyProduct'))
-                    <em class="invalid-feedback">
-                        {{ $errors->first('notifyProduct') }}
-                    </em>
-                @endif
-                <p class="helper-block">
-                    {{ trans('cruds.ticket.fields.author_name_helper') }}
-                </p>
             </div>
             @if(auth()->user()->isAdmin())
                 <div class="form-group {{ $errors->has('assigned_to_user_id') ? 'has-error' : '' }}">
