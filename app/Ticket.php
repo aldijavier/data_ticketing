@@ -105,9 +105,14 @@ class Ticket extends Model implements HasMedia
                     $query->whereId(request()->input('priority'));
                 });
             })
-            ->when(request()->input('analyst'), function($query) {
-                $query->whereHas('analyst', function($query) {
-                    $query->whereId(request()->input('analyst'));
+            ->when(request()->input('assigned_to_user'), function($query) {
+                $query->whereHas('assigned_to_user', function($query) {
+                    $query->whereId(request()->input('assigned_to_user'));
+                });
+            })
+            ->when(request()->input('category'), function($query) {
+                $query->whereHas('category', function($query) {
+                    $query->whereId(request()->input('category'));
                 });
             })
             ->when(request()->input('user'), function($query) {

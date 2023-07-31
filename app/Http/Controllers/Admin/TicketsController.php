@@ -106,10 +106,9 @@ class TicketsController extends Controller
         $priorities = Priority::all();
         $statuses = Status::all();
         $categories = Category::all();
-        // $analyst = Role::where('id', 2)->get();
+        $assigned_to_user = User::all();
 
-
-        return view('admin.tickets.index', compact('priorities', 'statuses', 'categories', 'user'));
+        return view('admin.tickets.index', compact('assigned_to_user', 'priorities', 'statuses', 'categories', 'user'));
     }
 
     public function create()

@@ -86,6 +86,14 @@ let filters = `
       @endforeach
     </select>
   </div>
+  <div class="form-group mx-sm-3 mb-2">
+    <select class="form-control" name="assigned_to_user">
+      <option value="">All Analyst</option>
+      @foreach($assigned_to_user as $analyst)
+        <option value="{{ $analyst->id }}"{{ request('analyst') == $analyst->id ? 'selected' : '' }}>{{ $analyst->name }}</option>
+      @endforeach
+    </select>
+  </div>
 </form>`;
 $('.card-body').on('change', 'select', function() {
   $('#filtersForm').submit();
@@ -132,7 +140,8 @@ $('.card-body').on('change', 'select', function() {
       data: {
         'status': searchParams.get('status'),
         'priority': searchParams.get('priority'),
-        'category': searchParams.get('category')
+        'category': searchParams.get('category'),
+        'assigned_to_user': searchParams.get('assigned_to_user')
       }
     },
     columns: [
