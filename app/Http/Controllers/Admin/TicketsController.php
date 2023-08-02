@@ -27,6 +27,7 @@ class TicketsController extends Controller
 
     public function index(Request $request)
     {
+        abort_if(Gate::denies('ticket_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         // Add this line to get the currently logged-in user
         $user = Auth::user();
         if ($request->ajax()) {

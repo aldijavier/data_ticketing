@@ -98,7 +98,7 @@ let filters = `
 $('.card-body').on('change', 'select', function() {
   $('#filtersForm').submit();
 })
-  let dtButtons = []
+  let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
 @can('ticket_delete')
   let deleteButtonTrans = '{{ trans('global.datatables.delete') }}';
   let deleteButton = {
